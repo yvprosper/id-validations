@@ -49,7 +49,7 @@ module.exports = {
       "@babel/preset-env",
       {
         targets: {
-          node: "12.18.3",
+          node: "14.18.3",
         },
       },
     ],

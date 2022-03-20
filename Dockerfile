@@ -11,7 +11,7 @@
 # # @author [Ehichioya Prior Famous] <[famous@youverify.co]>
 # #
 
-FROM node:12.18.3-alpine as base
+FROM node:14.18.3-alpine as base
 
 FROM base as builder
 
