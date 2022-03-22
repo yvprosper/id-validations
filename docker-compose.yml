@@ -1,0 +1,171 @@
+version: "3.8"
+services:
+  # mongo-replica-setup:
+  #   container_name: mongo-setup
+  #   image: mongo
+  #   restart: always
+  #   networks:
+  #     - netApplication
+  #   volumes:
+  #     - ./.docker/mongodb/scripts/mongosetup.sh:/scripts/mongosetup.sh
+  #   entrypoint: ["bash", "/scripts/mongosetup.sh" ]
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=$DATABASE_USER
+  #     - MONGO_INITDB_ROOT_PASSWORD=$DATABASE_PASSWORD
+  #   depends_on:
+  #   - mongodb1
+  #   - mongodb2
+  #   - mongodb3
+
+  # mongodb1:
+  #   image: mongo
+  #   restart: unless-stopped
+  #   env_file: ./.env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=$DATABASE_USER
+  #     - MONGO_INITDB_ROOT_PASSWORD=$DATABASE_PASSWORD
+  #     - MONGO_INITDB_DATABASE=${DATABASE_NAME}
+  #   command: ["-f", "/etc/mongod.conf", "--keyFile", "/auth/file.key", "--replSet", "${MONGO_REPLICA_SET_NAME}", "--bind_ip_all"]
+  #   ports:
+  #     - 30001:27017
+  #   networks:
+  #     - netApplication
+  #   volumes:
+  #     - db1:/data/db
+  #     - ./.docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
+  #     - ./.docker/mongodb/mongod.conf:/etc/mongod.conf
+  #     - ./.docker/mongodb/file.key:/auth/file.key
+  #   healthcheck:
+  #     test: test $$(echo "rs.status().ok" | mongo -u $${DATABASE_USERNAME} -p $${DATABASE_PASSWORD} --quiet) -eq 1
+  #     interval: 30s
+  #     start_period: 60s
+
+  # mongodb2:
+  #   hostname: 'mongodb2'
+  #   container_name: 'mongodb2'
+  #   image: mongo
+  #   command: ["-f", "/etc/mongod.conf", "--keyFile", "/auth/file.key", "--replSet", "${MONGO_REPLICA_SET_NAME}", "--bind_ip_all"]
+  #   restart: 'always'
+  #   ports:
+  #     - 30002:27017
+  #   networks:
+  #     - netApplication
+  #   volumes:
+  #     - db2:/data/db
+  #     - ./.docker/mongodb/mongod.conf:/etc/mongod.conf
+  #     - ./.docker/mongodb/file.key:/auth/file.key
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=$DATABASE_USER
+  #     - MONGO_INITDB_ROOT_PASSWORD=$DATABASE_PASSWORD
+  #     - MONGO_INITDB_DATABASE=${DATABASE_NAME}
+  #   depends_on:
+  #     - mongodb1
+
+  # mongodb3:
+  #   hostname: 'mongodb3'
+  #   container_name: 'mongodb3'
+  #   image: mongo
+  #   command: ["-f", "/etc/mongod.conf", "--keyFile", "/auth/file.key", "--replSet", "${MONGO_REPLICA_SET_NAME}", "--bind_ip_all"]
+  #   restart: 'always'
+  #   ports:
+  #     - 30003:27017
+  #   networks:
+  #     - netApplication
+  #   volumes:
+  #     - db3:/data/db
+  #     - ./.docker/mongodb/mongod.conf:/etc/mongod.conf
+  #     - ./.docker/mongodb/file.key:/auth/file.key
+  #   env_file:
+  #       - .env
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=$DATABASE_USER
+  #     - MONGO_INITDB_ROOT_PASSWORD=$DATABASE_PASSWORD
+  #     - MONGO_INITDB_DATABASE=${DATABASE_NAME}
+  #   depends_on:
+  #     - mongodb1
+  mongodb1:
+    image: "bitnami/mongodb"
+    environment:
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb1
+      - MONGODB_REPLICA_SET_KEY=123456789
+      - MONGODB_ROOT_PASSWORD=root
+    ports:
+      - 27017:27017
+    volumes:
+      - "mongodb_master_data:/bitnami"
+
+  mongodb2:
+    image: "bitnami/mongodb"
+    depends_on:
+      - mongodb1
+    environment:
+      - MONGODB_REPLICA_SET_MODE=secondary
+      - MONGODB_REPLICA_SET_KEY=123456789
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb1
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=root
+    ports:
+      - 27018:27017
+
+  mongodb3:
+    image: "bitnami/mongodb"
+    depends_on:
+      - mongodb1
+    environment:
+      - MONGODB_REPLICA_SET_MODE=arbiter
+      - MONGODB_INITIAL_PRIMARY_HOST=mongodb1
+      - MONGODB_INITIAL_PRIMARY_PORT_NUMBER=27017
+      - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=root
+      - MONGODB_REPLICA_SET_KEY=123456789
+    ports:
+      - 27019:27017
+
+  my-fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    links:
+      - "my-elastic"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  my-elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    environment:
+      discovery.type: "single-node"
+      xpack.security.enabled: "true"
+      ELASTIC_PASSWORD: $ELASTICSEARCH_PASSWORD
+
+  kibana:
+    image: kibana:7.8.1
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - 5601:5601
+
+  my-cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - cache:/data
+
+volumes:
+  mongodb_master_data:
+    driver: local
+  elastic_data:
+  cache:
+    driver: local

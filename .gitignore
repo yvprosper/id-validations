@@ -12,3 +12,6 @@ yarn-error.log
 /playground
 .vscode
 .nyc_output
+# docker-compose.yml
+# kibana.yml
+# /fluentd
