@@ -1,12 +1,11 @@
 import Mali from "mali";
 import { asValue, AwilixContainer } from "awilix";
-import services from "stubs/todo/service_grpc_pb";
-
 import { getATodo } from "interfaces/grpc/services";
 import { grpcLogger, ipAddress, container } from "interfaces/grpc/middlewares";
 import Logger from "infra/logging/Logger";
 import convict from "convict";
-import { ConfigSchema } from "types/custom";
+import { ConfigSchema } from "types";
+import services from "./services-protos-nodejs/services/todo/service_grpc_pb";
 
 interface Contxt {
   container?: AwilixContainer;

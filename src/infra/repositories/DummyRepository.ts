@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CreateDummyDto } from "infra/dto/create.dummy.dto";
 import publishToRabitmq, { PublishData } from "infra/libs/publishToRabitmq";
 import BaseRepository from "infra/repositories/BaseRepository";
 // import mongoose from "mongoose";
 import mongoose from "mongoose";
-import { IDummyDocument } from "infra/database/models/mongoose/Dummy";
+// import { IDummyDocument } from "infra/database/models/mongoose/Dummy";
 import opentracing from "opentracing";
 import { Client } from "@elastic/elasticsearch";
 import { RedisClientType } from "redis/dist/lib/client";
@@ -12,7 +13,7 @@ import { RedisLuaScripts } from "redis/dist/lib/lua-script";
 import BaseError from "interfaces/http/errors/base";
 
 class DummyRepository extends BaseRepository {
-  Todo: mongoose.Model<IDummyDocument>;
+  Todo: any;
 
   tracer: opentracing.Tracer;
 
@@ -38,7 +39,7 @@ class DummyRepository extends BaseRepository {
   }: {
     cache: RedisClientType<RedisModules, RedisLuaScripts>;
     elasticClient: Client;
-    models: { Dummy: mongoose.Model<IDummyDocument> };
+    models: { Dummy: any };
     tracing: {
       tracer: opentracing.Tracer;
       logSpanError: (span: opentracing.Span, error: BaseError) => void;
@@ -102,6 +103,19 @@ class DummyRepository extends BaseRepository {
 
     try {
       const dummies = await this.Todo.find({});
+      await this.publishToRabitmq([
+        // index task
+        {
+          worker: "test",
+          message: {
+            action: "data",
+            type: "test",
+            data: {
+              name: "test",
+            },
+          },
+        },
+      ]);
       return dummies;
     } catch (error) {
       this.logSpanError(parentSpan, error);

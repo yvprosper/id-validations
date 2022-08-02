@@ -1,7 +1,7 @@
 import { Client } from "@elastic/elasticsearch";
 import convict from "convict";
 import Logger from "infra/logging/Logger";
-import { ConfigSchema } from "types/custom";
+import { ConfigSchema } from "types";
 
 const elasticsearchManager = ({
   config,

@@ -7,17 +7,17 @@ app.start().catch((error) => {
   console.log({ appStartError: error }, 993);
   // console.log({ appStartError: error });
   container.cradle.logger.error(error);
-  // app.shutdown();
+  app.shutdown();
 });
 
 process.on("SIGINT", function onSigint(error) {
   console.log({ terminationSignal: error });
-  // app.shutdown();
+  app.shutdown();
 });
 
 process.on("SIGTERM", function onSigterm(error) {
   console.log({ terminationSignal: error });
-  // app.shutdown();
+  app.shutdown();
 });
 
 // process.on("uncaughtException", (error) => {

@@ -12,7 +12,6 @@ const { expect, request } = chai;
 const { config } = container.cradle;
 const PORT = config.get("app.httpPort");
 const host = `http://127.0.0.1:${PORT}`;
-// const should = chai.should();
 
 describe("Index Test", () => {
   before(async () => {
@@ -55,7 +54,7 @@ describe("Index Test", () => {
       expect(res.body.data).to.have.property("email");
     });
 
-    it("should get an empty object", async () => {
+    it.only("should get an empty object", async () => {
       const res = await request(host).get("/v1/todos");
       expect(res.status).to.equal(200);
       expect(res.body.data).to.be.an("array");

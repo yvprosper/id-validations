@@ -10,7 +10,7 @@
         "moduleResolution": "node",
         "allowJs": true,
         "checkJs": false,
-        "outDir": "dist", // Compiled Output Directory
+        "outDir": "dist",
         "rootDir": "./src",
         "esModuleInterop": true,
         "baseUrl": "./",
@@ -32,16 +32,15 @@
             "seeds": ["src/seeds/*"],
             "stubs/*": ["src/interfaces/grpc/services-protos-nodejs/services/*"]
         },
-        "typeRoots" : ["./src/types", "./node_modules/@types"],
+        "typeRoots" : ["src/globalTypes", "./node_modules/@types"],
         "skipLibCheck": true,
     },
     "include": [
-        "src/**/*", // Every ts file inside src folder
+        "src/**/*",
     ],
     "exclude": [
         "node_modules",
         "dist", // Exclude compiled output by Typescript compiler
-        // "src/interfaces/grpc/services-protos-nodejs",
     ],
     "ts-node": {
         "require": ["tsconfig-paths/register"]

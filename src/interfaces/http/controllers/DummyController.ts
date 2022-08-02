@@ -5,7 +5,7 @@ import BaseController from "interfaces/http/controllers/BaseController";
 import CreateTodo from "app/actions/CreateTodo";
 import { ValidatedRequest } from "express-joi-validation";
 import GetAllTodo from "app/actions/GetAllTodo";
-import { DummyRequestSchema } from "types/custom";
+import { DummyRequestSchema } from "types";
 
 class DummyController extends BaseController {
   createTodo: CreateTodo;

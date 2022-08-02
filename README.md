@@ -4,7 +4,7 @@
 
 ## Development Environment Setup
 
-1.  Make sure you have `nvm`, node `v12.18.3` or `LTS` version of node installed
+1.  Make sure you have `nvm`, node `v14.18.3` or `LTS` version of node installed
 2.  Install `yarn` - `npm install -g yarn`.
 
 ## Documentation

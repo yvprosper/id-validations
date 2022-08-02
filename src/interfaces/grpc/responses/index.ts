@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
@@ -9,7 +10,7 @@ import {
   Pagination,
   GetAllTodosResponse,
 } from "stubs/todo/messages_pb";
-import { AttachmentData } from "types/custom";
+import { AttachmentData } from "types";
 
 const createAtachment = (attachment: AttachmentData) => {
   const todoAttachment = new Attachment();

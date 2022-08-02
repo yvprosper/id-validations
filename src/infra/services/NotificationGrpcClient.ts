@@ -2,9 +2,9 @@ import convict from "convict";
 import grpc from "grpc";
 import BaseError from "interfaces/http/errors/base";
 // import { createQueueEmailRequest, createQueueSmsRequest } from "interfaces/grpc/requests";
-import ClientServices from "stubs/notification/service_grpc_pb";
 import opentracing from "opentracing";
-import { ConfigSchema, EmailSMSPayload } from "types/custom";
+import { ConfigSchema, EmailSMSPayload } from "types";
+import ClientServices from "../../interfaces/grpc/services-protos-nodejs/services/notification/service_grpc_pb";
 
 /**
  * class NotificationGrpcClient

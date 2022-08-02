@@ -1,7 +1,7 @@
 import convict from "convict";
 import FluentLogger from "fluent-logger";
 import BaseError from "interfaces/http/errors/base";
-import { ConfigSchema } from "types/custom";
+import { ConfigSchema } from "types";
 
 class Logger {
   config: convict.Config<ConfigSchema>;

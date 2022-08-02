@@ -1,3 +1,0 @@
-exports.script = {
-  hello: "world",
-};

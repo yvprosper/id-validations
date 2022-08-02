@@ -18,7 +18,7 @@ dotEnvExtended.load({
   overrideProcessEnv: false,
 });
 import convict from "convict";
-import { ConfigSchema } from "types/custom";
+import { ConfigSchema } from "types";
 
 const _require = require;
 let configCombine: convict.Schema<ConfigSchema> = {

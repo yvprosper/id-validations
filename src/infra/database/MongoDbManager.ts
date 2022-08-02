@@ -2,7 +2,7 @@ import convict from "convict";
 import Logger from "infra/logging/Logger";
 import mongoose from "mongoose";
 import beautifyUnique from "mongoose-beautiful-unique-validation";
-import { ConfigSchema } from "types/custom";
+import { ConfigSchema } from "types";
 
 interface ConnectOptions {
   poolSize: number;

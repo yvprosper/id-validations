@@ -1,8 +1,18 @@
-import { VerifyTokenRequest, GetManyUsersRequest } from "stubs/user/messages_pb";
-import { PublishEventRequest, DeviceInfo } from "stubs/auditlog/messages_pb";
-import { QueueEmailRequest, Attachment, QueueSmsRequest } from "stubs/notification/messages_pb";
 import { TokenPayload } from "infra/services/UserGrpcClient";
-import { PublishEvent, UserAgent, AttachmentData, EmailSMSPayload } from "types/custom";
+import { PublishEvent, UserAgent, AttachmentData, EmailSMSPayload } from "types";
+import {
+  PublishEventRequest,
+  DeviceInfo,
+} from "../services-protos-nodejs/services/auditlog/messages_pb";
+import {
+  QueueEmailRequest,
+  Attachment,
+  QueueSmsRequest,
+} from "../services-protos-nodejs/services/notification/messages_pb";
+import {
+  VerifyTokenRequest,
+  GetManyUsersRequest,
+} from "../services-protos-nodejs/services/user/messages_pb";
 
 // VerifyToken
 export const createVerifyTokenRequest = (data: TokenPayload) => {

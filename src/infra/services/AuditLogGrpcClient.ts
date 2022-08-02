@@ -1,11 +1,11 @@
 import grpc from "grpc";
 import { createPublishEventRequest } from "interfaces/grpc/requests";
-import ClientServices from "stubs/auditlog/service_grpc_pb";
 import flatten from "flat";
 import opentracing from "opentracing";
 import convict from "convict";
 import BaseError from "interfaces/http/errors/base";
-import { ConfigSchema, PublishEvent, User, UserAgent } from "types/custom";
+import { ConfigSchema, PublishEvent, User, UserAgent } from "types";
+import ClientServices from "../../interfaces/grpc/services-protos-nodejs/services/auditlog/service_grpc_pb";
 
 /**
  * class AuditLogGrpcClient

@@ -8,7 +8,7 @@ import convict from "convict";
 import Logger from "infra/logging/Logger";
 import MongoDbManager from "infra/database/MongoDbManager";
 import { Client } from "@elastic/elasticsearch";
-import { ConfigSchema } from "types/custom";
+import { ConfigSchema } from "types";
 
 class Application {
   restServer: RestServer;
@@ -77,7 +77,7 @@ class Application {
         cache: asValue(redisClient),
       });
     }
-    await this.restServer.start();
+    await this.restServer.onConnection();
     await this.grpcServer.start();
   }
 
