@@ -4,7 +4,7 @@ import BaseError from "interfaces/http/errors/base";
 // import { createQueueEmailRequest, createQueueSmsRequest } from "interfaces/grpc/requests";
 import opentracing from "opentracing";
 import { ConfigSchema, EmailSMSPayload } from "types";
-import ClientServices from "../../interfaces/grpc/services-protos-nodejs/services/notification/service_grpc_pb";
+import ClientServices from "interfaces/grpc/services-protos-nodejs/services/notification/service_grpc_pb";
 
 /**
  * class NotificationGrpcClient

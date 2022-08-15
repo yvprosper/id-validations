@@ -9,7 +9,7 @@ import {
   CreateTodoResponse,
   Pagination,
   GetAllTodosResponse,
-} from "stubs/todo/messages_pb";
+} from "interfaces/grpc/services-protos-nodejs/services/todo/messages_pb";
 import { AttachmentData } from "types";
 
 const createAtachment = (attachment: AttachmentData) => {

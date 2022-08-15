@@ -30,7 +30,7 @@
             "validation": ["src/interfaces/http/validations/*"],
             "routes": ["src/interfaces/http/routes/*"],
             "seeds": ["src/seeds/*"],
-            "stubs/*": ["src/interfaces/grpc/services-protos-nodejs/services/*"]
+            "stubs": ["src/interfaces/grpc/services-protos-nodejs/services/*"]
         },
         "typeRoots" : ["src/globalTypes", "./node_modules/@types"],
         "skipLibCheck": true,

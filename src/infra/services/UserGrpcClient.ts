@@ -4,7 +4,7 @@ import opentracing from "opentracing";
 import convict from "convict";
 import BaseError from "interfaces/http/errors/base";
 import { ConfigSchema } from "types";
-import ClientServices from "../../interfaces/grpc/services-protos-nodejs/services/user/service_grpc_pb";
+import ClientServices from "interfaces/grpc/services-protos-nodejs/services/user/service_grpc_pb";
 
 export interface TokenPayload {
   token: string;

@@ -86,7 +86,6 @@
     "mali": "^0.41.1",
     "marked": "^2.0.3",
     "method-override": "^3.0.0",
-    "module-alias": "^2.2.2",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "mongodb-memory-server": "^8.4.0",
